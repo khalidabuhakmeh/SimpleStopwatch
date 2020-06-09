@@ -2,7 +2,7 @@
 
 I wanted to write a macOS stopwatch, so I did.
 
-![screenshot of stopwatch](./stopwatch.png)
+![screenshot of stopwatch](./screenshot.png)
 
 To get started, you'll need the following:
 
