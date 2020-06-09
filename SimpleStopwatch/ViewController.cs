@@ -17,17 +17,23 @@ namespace SimpleStopwatch
         {
             base.ViewDidLoad();
 
-            Time.StringValue = _stopwatch.Elapsed.ToString("g");
+            SetElapsedTime();
 
             var timer = NSTimer.CreateRepeatingTimer(TimeSpan.FromMilliseconds(100), t =>
             {
                 if (_stopwatch.IsRunning)
                 {
-                    Time.StringValue = _stopwatch.Elapsed.ToString("g");
+                    SetElapsedTime();
                 }
             });
             
             NSRunLoop.Main.AddTimer(timer, NSRunLoopMode.Common);
+        }
+
+        private void SetElapsedTime()
+        {
+            var emoji = _stopwatch.IsRunning ? "⏱️" : "🛑";
+            Time.StringValue = $"{emoji}️ {_stopwatch.Elapsed:g}";
         }
 
         partial void Reset(AppKit.NSButton sender)
@@ -41,7 +47,7 @@ namespace SimpleStopwatch
                 _stopwatch.Reset();
             }
 
-            Time.StringValue = _stopwatch.Elapsed.ToString("g");
+            SetElapsedTime();
         }
 
         partial void Start(AppKit.NSButton sender)
@@ -56,19 +62,8 @@ namespace SimpleStopwatch
                 _stopwatch.Start();
                 sender.Title = "Stop";
             }
-        }
-
-        public override NSObject RepresentedObject
-        {
-            get
-            {
-                return base.RepresentedObject;
-            }
-            set
-            {
-                base.RepresentedObject = value;
-                // Update the view, if already loaded.
-            }
+            
+            SetElapsedTime();
         }
     }
 }
